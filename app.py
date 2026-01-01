@@ -4,6 +4,16 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
+import logging
+
+# Azureが自動で設定する環境変数から接続情報を取得（自動設定されます）
+app_insight_key = os.environ.get('APPLICATIONINSIGHTS_CONNECTION_STRING')
+
+if app_insight_key:
+    # ログに Application Insights の情報を乗せる設定（シンプル版）
+    logging.basicConfig(level=logging.INFO)
+    app.logger.info("Application Insights is active.")
+
 # ★変更ポイント：環境変数 'DB_CONNECTION_STRING' があればそれを使う
 # なければ、一旦これまでの文字列をデフォルトとして置く（移行用）
 #CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING', 
