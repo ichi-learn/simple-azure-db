@@ -6,8 +6,10 @@ app = Flask(__name__)
 
 # ★変更ポイント：環境変数 'DB_CONNECTION_STRING' があればそれを使う
 # なければ、一旦これまでの文字列をデフォルトとして置く（移行用）
-CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING', 
-    "Driver={ODBC Driver 18 for SQL Server};Server=tcp:testdb01.database.windows.net,1433;Database=free-sql-db-8650869;Uid=dbadmin;Pwd=dbdb@1008;Encrypt=yes;TrustServerCertificate=yes;")
+#CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING', 
+#    "Driver={ODBC Driver 18 for SQL Server};Server=tcp:testdb01.database.windows.net,1433;Database=free-sql-db-8650869;Uid=dbadmin;Pwd=dbdb@1008;Encrypt=yes;TrustServerCertificate=yes;")
+# GitHubの app.py をこれに書き換えて、パスワードを完全に消し去ります
+CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING')
 
 def get_db_connection():
     return pyodbc.connect(CONNECTION_STRING)
