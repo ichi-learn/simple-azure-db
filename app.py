@@ -4,8 +4,10 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-# 接続文字列（成功した時の形式を維持）
-CONNECTION_STRING = "Driver={ODBC Driver 18 for SQL Server};Server=tcp:testdb01.database.windows.net,1433;Database=free-sql-db-8650869;Uid=dbadmin;Pwd=dbdb@1008;Encrypt=yes;TrustServerCertificate=yes;"
+# ★変更ポイント：環境変数 'DB_CONNECTION_STRING' があればそれを使う
+# なければ、一旦これまでの文字列をデフォルトとして置く（移行用）
+CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING', 
+    "Driver={ODBC Driver 18 for SQL Server};Server=tcp:testdb01.database.windows.net,1433;Database=free-sql-db-8650869;Uid=dbadmin;Pwd=dbdb@1008;Encrypt=yes;TrustServerCertificate=yes;")
 
 def get_db_connection():
     return pyodbc.connect(CONNECTION_STRING)
