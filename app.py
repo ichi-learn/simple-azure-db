@@ -21,8 +21,13 @@ if app_insight_key:
 # GitHubの app.py をこれに書き換えて、パスワードを完全に消し去ります
 CONNECTION_STRING = os.environ.get('DB_CONNECTION_STRING')
 
+#def get_db_connection():
+#    return pyodbc.connect(CONNECTION_STRING)
+
 def get_db_connection():
-    return pyodbc.connect(CONNECTION_STRING)
+    conn_str = os.environ.get('DB_CONNECTION_STRING')
+    msi_conn_str = f"{conn_str};Authentication=ActiveDirectoryMsi;"
+    return pyodbc.connect(msi_conn_str)
 
 # 起動時にテーブルがなければ作成する
 def init_db():
