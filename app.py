@@ -29,6 +29,15 @@ def init_db():
 def index():
     conn = get_db_connection()
     cursor = conn.cursor()
+    
+    ### ここから追加：テーブルがなければ作成 ###
+    cursor.execute('''
+        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='restaurants' AND xtype='U')
+        CREATE TABLE restaurants (id INT IDENTITY(1,1) PRIMARY KEY, name NVARCHAR(100), address NVARCHAR(200))
+    ''')
+    conn.commit()
+    ### ここまで追加 ###
+
     cursor.execute("SELECT * FROM restaurants")
     rows = cursor.fetchall()
     conn.close()
